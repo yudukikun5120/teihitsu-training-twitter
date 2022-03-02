@@ -1,3 +1,4 @@
+require "bundler/setup"
 require 'tweetkit'
 require 'dotenv/load'
 require 'net/https'
@@ -8,7 +9,7 @@ MAX_ITEM_ID = 2184
 # 項目を保存する配列
 @items = []
 
-4.times do
+until @items.count == 4 do
   item_id = rand(1..MAX_ITEM_ID)
   p uri = URI.parse("https://teihitsu.deta.dev/items/jyuku-ate/#{item_id}")
   p response = Net::HTTP.get_response(uri)
@@ -16,8 +17,6 @@ MAX_ITEM_ID = 2184
   if response.code == "200"
     item = JSON.parse(response.body)
     @items << item
-  else
-    raise RuntimeError, "逞筆APIから問題の情報を取得できませんでした。"
   end
 end
 
