@@ -3,14 +3,14 @@ require 'dotenv/load'
 require 'net/https'
 
 
-MAX_ITEM_ID = ENV["MAX_ITEM_ID"].to_i
+MAX_ITEM_ID = 2184
 
 # 項目を保存する配列
 @items = []
 
 4.times do
   item_id = rand(1..MAX_ITEM_ID)
-  p uri = URI.parse("#{ENV["TEIHITSU_API_ENDPOINT"]}/jyuku-ate/#{item_id}")
+  p uri = URI.parse("https://teihitsu.deta.dev/items/jyuku-ate/#{item_id}")
   p response = Net::HTTP.get_response(uri)
 
   if response.code == "200"
