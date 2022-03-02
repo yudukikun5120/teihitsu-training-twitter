@@ -33,10 +33,21 @@ client = Tweetkit::Client.new do |config|
   config.access_token_secret = ENV["ACCESS_TOKEN_SECRET"]
 end
 
-p client.post_tweet(
+response = client.post_tweet(
   text: "次の熟字群・当て字の読みを四択より選べ。\nQ.#{question_item["item_id"]}「#{question_item["q"]}」",
   poll: {
     options: options,
     duration_minutes: 120
   }
 )
+
+p response
+
+response = client.post_tweet(
+  text: "答えは「#{question_item["a"]}」です。\n\n解説：\n#{question_item["comment"]}",
+  reply: {
+    in_reply_to_tweet_id: response.response["data"]["id"],
+  }
+)
+
+p response
