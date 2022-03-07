@@ -57,7 +57,7 @@ client = Tweetkit::Client.new do |config|
 end
 
 p response = client.post_tweet(
-  text: "次の熟字群・当て字の読みを四択より選べ。\nQ.#{question_item["item_id"]}「#{question_item["q"]}」",
+  text: "次の熟字群・当て字の読みを四択より選べ。\n「#{question_item["q"]}」〈◆#{question_item["level"]}｜Q.#{question_item["item_id"]}〉",
   poll: {
     options: options,
     duration_minutes: 120
