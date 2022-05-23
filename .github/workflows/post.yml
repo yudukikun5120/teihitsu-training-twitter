@@ -8,12 +8,12 @@
 name: Post
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 */2 * * *'
 
 jobs:
   post:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,6 +29,8 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Setup Python
+      uses: actions/setup-python@v3.1.2
     - name: Run main.rb
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
