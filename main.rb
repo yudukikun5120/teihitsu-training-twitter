@@ -95,13 +95,17 @@ class Quiz
     tweets = Tweet.new(client, @problem, answer_options)
     res = tweets.first_tweet
     tweets.second_tweet res
+    res
   end
 end
 
 Tweet = Struct.new(:client, :problem, :answer_options) do
   def first_tweet
     client.post_tweet(
-      text: "次の熟字群・当て字の読みを四択より選べ。\n「#{problem.problem}」〈◆#{problem.level}｜Q.#{problem.id}〉",
+      text: <<~"TXT",
+        次の熟字群・当て字の読みを四択より選べ。
+        「#{problem.problem}」〈◆#{problem.level}｜Q.#{problem.id}〉
+      TXT
       poll: {
         options: answer_options,
         duration_minutes: 120
@@ -111,7 +115,12 @@ Tweet = Struct.new(:client, :problem, :answer_options) do
 
   def second_tweet(response)
     client.post_tweet(
-      text: "答えは「#{problem.correct_answer}」です。\n\n解説：\n#{problem.note}",
+      text: <<~"TXT",
+        答えは「#{problem.correct_answer}」です。
+
+        解説：
+        #{problem.note}
+      TXT
       reply: {
         in_reply_to_tweet_id: response.response['data']['id']
       }
@@ -129,6 +138,9 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   quiz = Quiz.new category
-  quiz.post_tweets
-  p category
+  res = quiz.post_tweets
+  puts <<~"LINK"
+    the tweet was posted at:
+    https://twitter.com/TeihitsuTRNG/status/#{res.response['data']['id']}
+  LINK
 end
