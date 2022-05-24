@@ -36,9 +36,10 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run main.rb
+      run: ruby main.rb -c $category
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
         CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
         CONSUMER_KEY_SECRET: ${{ secrets.CONSUMER_KEY_SECRET }}
-      run: ruby main.rb
+        category: jyuku_ate

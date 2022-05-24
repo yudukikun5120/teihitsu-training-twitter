@@ -7,6 +7,7 @@ require 'net/https'
 require 'json'
 require 'pycall/import'
 require 'yaml'
+require 'optparse'
 
 # define a problem
 class Problem
@@ -118,7 +119,16 @@ Tweet = Struct.new(:client, :problem, :answer_options) do
   end
 end
 
+def category(category = nil)
+  opt = OptionParser.new
+  opt.on('-c', '--category CATEGORY', 'specify the category') { |v| category ||= v }
+  opt.parse!(ARGV)
+
+  category
+end
+
 if __FILE__ == $PROGRAM_NAME
-  quiz = Quiz.new 'jyuku_ate'
+  quiz = Quiz.new category
   quiz.post_tweets
+  p category
 end
