@@ -3,5 +3,5 @@
 source 'https://rubygems.org'
 
 gem 'dotenv'
-gem 'tweetkit'
 gem 'pycall'
+gem 'tweetkit'

@@ -2,30 +2,30 @@ jyuku_ate:
   1:
     level: 1
     probability: 0.4
-    ranges:
+    range:
       start: 1
       end: 459
   2:
     level: 2
     probability: 0.2
-    ranges:
+    range:
       start: 460
       end: 1362
   3:
     level: 3
     probability: 0.2
-    ranges:
+    range:
       start: 1363
       end: 1755
   4:
     level: 4
     probability: 0.1
-    ranges:
+    range:
       start: 1756
       end: 2101
   5:
     level: 5
     probability: 0.1
-    ranges:
+    range:
       start: 2102
       end: 2184

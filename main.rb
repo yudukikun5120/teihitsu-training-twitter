@@ -35,17 +35,21 @@ class Quiz
 
   def initialize(category)
     @category = category
+    set_categories_attr @category
+    @level = get_level @levels, @probabilities
+    @id = get_problem_id @level
+    @problem = Problem.new @category, @id
+  end
+
+  def set_categories_attr(category)
     categories = YAML.load_file './categories.yml'
     @ctgr_attr = categories[category]
 
     @levels = @ctgr_attr.map { |_, attr| attr['level'] }
     @probabilities = @ctgr_attr.map { |_, attr| attr['probability'] }
-    @ranges = @ctgr_attr.map { |_, attr| attr['range'] }
-
-    @level = get_level
   end
 
-  def get_level(levels = @levels, probabilities = @probabilities)
+  def get_level(levels, probabilities)
     pyfrom :scipy, import: :stats
 
     xk = levels
@@ -55,22 +59,19 @@ class Quiz
   end
 
   def get_problem_id(level = @level, ctgr_attr = @ctgr_attr)
-    ranges = ctgr_attr[level]['ranges']
-    start = ranges['start']
-    end_ = ranges['end']
+    range = ctgr_attr[level]['range']
+    start = range['start']
+    end_ = range['end']
     rand start..end_
-  end
-
-  def get_problem(level = @level, category = @category)
-    id = get_problem_id level
-    Problem.new category, id
   end
 
   def get_answer_options(level = @level, shuffle: true)
     answer_options = []
+    answer_options << @problem.correct_answer
+
     until answer_options.count >= 4
-      id = get_problem_id level
-      answer_options << Problem.new(category, id).correct_answer
+      random_id = get_problem_id level
+      answer_options << Problem.new(@category, random_id).correct_answer
     end
     answer_options.shuffle! if shuffle
     answer_options
@@ -87,9 +88,8 @@ class Quiz
 
   def post_tweets
     client = set_client
-    problem = get_problem
     answer_options = get_answer_options
-    tweets = Tweet.new(client, problem, answer_options)
+    tweets = Tweet.new(client, @problem, answer_options)
     res = tweets.first_tweet
     tweets.second_tweet res
   end
