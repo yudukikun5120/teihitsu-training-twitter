@@ -36,31 +36,29 @@ class Quiz
 
   def initialize(category)
     @category = category
-    categories_attr @category
-    level @levels, @probabilities
+    @ctgr_attr, @levels, @probabilities = categories_attr @category
+    @level = get_level @levels, @probabilities
     @id = get_problem_id @level, @ctgr_attr
     @problem = Problem.new @category, @id
   end
 
-  def categories_attr=(category)
+  def categories_attr(category)
     categories = YAML.load_file './categories.yml'
     ctgr_attr = categories[category]
 
     levels = ctgr_attr.map { |_, attr| attr['level'] }
     probabilities = ctgr_attr.map { |_, attr| attr['probability'] }
 
-    @ctgr_attr = ctgr_attr
-    @levels = levels
-    @probabilities = probabilities
+    [ctgr_attr, levels, probabilities]
   end
 
-  def level=(levels, probabilities)
+  def get_level(levels, probabilities)
     pyfrom :scipy, import: :stats
 
     xk = levels
     pk = probabilities
     custm = stats.rv_discrete.call({ values: [xk, pk] })
-    @level = custm.rvs
+    custm.rvs
   end
 
   def get_problem_id(level, ctgr_attr)
