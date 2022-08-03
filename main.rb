@@ -17,7 +17,7 @@ class Problem
     @category = category
     @id = id
     get_content(@category, @id).each_pair do |key, val|
-      instance_variable_set("@#{key}", val)
+      instance_variable_set "@#{key}", val unless key.empty?
     end
   end
 
@@ -34,8 +34,8 @@ class Quiz
 
   attr_reader :category, :levels, :ctgr_attr
 
-  def initialize(category)
-    @category = category
+  def initialize
+    @category = sample_category
     @ctgr_attr, @levels, @probabilities = categories_attr @category
     @level = get_level @levels, @probabilities
     @id = get_problem_id @level, @ctgr_attr
@@ -52,6 +52,11 @@ class Quiz
     [ctgr_attr, levels, probabilities]
   end
 
+  def sample_category
+    available_category = YAML.load_file('./categories.yml').keys
+    available_category.sample
+  end
+
   def get_level(levels, probabilities)
     pyfrom :scipy, import: :stats
 
@@ -63,9 +68,8 @@ class Quiz
 
   def get_problem_id(level, ctgr_attr)
     range = ctgr_attr[level]['range']
-    start = range['start']
-    end_ = range['end']
-    rand start..end_
+    start, end_ = range['start'], range['end']
+    (start..end_).to_a.sample
   end
 
   def get_answer_options(level, shuffle: true)
@@ -74,10 +78,10 @@ class Quiz
 
     until answer_options.count >= 4
       random_id = get_problem_id level, @ctgr_attr
-      answer_options << Problem.new(@category, random_id).correct_answer
+      random_problem = Problem.new @category, random_id
+      answer_options << random_problem.correct_answer unless answer_options.include?(random_problem.correct_answer) or random_problem.correct_answer == nil
     end
     answer_options.shuffle! if shuffle
-    answer_options
   end
 
   def set_client
@@ -92,23 +96,31 @@ class Quiz
   def post_tweets
     client = set_client
     answer_options = get_answer_options @level
-    tweets = Tweet.new(client, @problem, answer_options)
+    tweets = Tweet.new(@category, client, @problem, answer_options)
     res = tweets.first_tweet
     tweets.second_tweet res
     res
   end
 end
 
-Tweet = Struct.new(:client, :problem, :answer_options) do
+Tweet = Struct.new(:category, :client, :problem, :answer_options) do
   def first_tweet
+    question_sentence =
+      case category
+      when "yoji-kaki"
+        "次の四字熟語の下線部に当てはまるものを四択より選べ。"
+      when "jyuku_ate"
+        "次の熟字群・当て字の読みを四択より選べ。"
+      end
+
     client.post_tweet(
       text: <<~"TXT",
-        次の熟字群・当て字の読みを四択より選べ。
+        #{question_sentence}
         「#{problem.problem}」〈◆#{problem.level}｜Q.#{problem.id}〉
       TXT
       poll: {
         options: answer_options,
-        duration_minutes: 120
+        duration_minutes: 300
       }
     )
   end
@@ -128,19 +140,14 @@ Tweet = Struct.new(:client, :problem, :answer_options) do
   end
 end
 
-def category(category = nil)
-  opt = OptionParser.new
-  opt.on('-c', '--category CATEGORY', 'specify the category') { |v| category ||= v }
-  opt.parse!(ARGV)
-
-  category
-end
 
 if __FILE__ == $PROGRAM_NAME
-  quiz = Quiz.new category
+  quiz = Quiz.new
   res = quiz.post_tweets
+  tweet_url = "https://twitter.com/TeihitsuTRNG/status/#{res.response['data']['id']}"
   puts <<~"LINK"
     the tweet was posted at:
-    https://twitter.com/TeihitsuTRNG/status/#{res.response['data']['id']}
+    #{tweet_url}
   LINK
+  system "open #{tweet_url}"
 end
