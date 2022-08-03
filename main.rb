@@ -44,7 +44,7 @@ class Quiz
 
   def categories_attr(category)
     categories = YAML.load_file './categories.yml'
-    ctgr_attr = categories[category]
+    ctgr_attr = categories[category]['levels']
 
     levels = ctgr_attr.map { |_, attr| attr['level'] }
     probabilities = ctgr_attr.map { |_, attr| attr['probability'] }
@@ -67,9 +67,13 @@ class Quiz
   end
 
   def get_problem_id(level, ctgr_attr)
-    range = ctgr_attr[level]['range']
-    start = range['start']
-    end_ = range['end']
+    start = case level
+            when 1
+              1
+            else
+              ctgr_attr[level - 1]['end'] + 1
+            end
+    end_ = ctgr_attr[level]['end']
     (start..end_).to_a.sample
   end
 
@@ -108,12 +112,7 @@ end
 
 Tweet = Struct.new(:category, :client, :problem, :answer_options) do
   def question_sentence
-    case category
-    when 'yoji-kaki'
-      '次の四字熟語の下線部に当てはまるものを四択より選べ。'
-    when 'jyuku_ate'
-      '次の熟字群・当て字の読みを四択より選べ。'
-    end
+    YAML.load_file('./categories.yml')[category]['question_sentence']
   end
 
   def first_tweet

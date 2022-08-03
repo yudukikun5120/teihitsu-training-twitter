@@ -1,56 +1,42 @@
 jyuku_ate:
-  1:
-    level: 1
-    probability: 0.4
-    range:
-      start: 1
+  question_sentence: 次の熟字群・当て字の読みを四択より選べ。
+  levels:
+    1:
+      level: 1
+      probability: 0.4
       end: 459
-  2:
-    level: 2
-    probability: 0.2
-    range:
-      start: 460
+    2:
+      level: 2
+      probability: 0.2
       end: 1362
-  3:
-    level: 3
-    probability: 0.2
-    range:
-      start: 1363
+    3:
+      level: 3
+      probability: 0.2
       end: 1755
-  4:
-    level: 4
-    probability: 0.1
-    range:
-      start: 1756
+    4:
+      level: 4
+      probability: 0.1
       end: 2101
-  5:
-    level: 5
-    probability: 0.1
-    range:
-      start: 2102
+    5:
+      level: 5
+      probability: 0.1
       end: 2184
 yoji-kaki:
-  1:
-    level: 1
-    probability: 0.4
-    range:
-      start: 1
+  question_sentence: 次の四字熟語の下線部に当てはまるものを四択より選べ。
+  levels:
+    1:
+      level: 1
+      probability: 0.4
       end: 466
-  2:
-    level: 2
-    probability: 0.3
-    range:
-      start: 467
+    2:
+      level: 2
+      probability: 0.3
       end: 1059
-  3:
-    level: 3
-    probability: 0.2
-    range:
-      start: 1060
+    3:
+      level: 3
+      probability: 0.2
       end: 1513
-  4:
-    level: 4
-    probability: 0.1
-    range:
-      start: 1514
+    4:
+      level: 4
+      probability: 0.1
       end: 1605
