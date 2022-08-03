@@ -117,14 +117,6 @@ Tweet = Struct.new(:category, :client, :problem, :answer_options) do
   end
 
   def first_tweet
-    question_sentence =
-      case category
-      when "yoji-kaki"
-        "次の四字熟語の下線部に当てはまるものを四択より選べ。"
-      when "jyuku_ate"
-        "次の熟字群・当て字の読みを四択より選べ。"
-      end
-
     client.post_tweet(
       text: <<~"TXT",
         #{question_sentence}
