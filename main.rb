@@ -46,7 +46,7 @@ class Quiz
     categories = YAML.load_file './categories.yml'
     ctgr_attr = categories[category]['levels']
 
-    levels = ctgr_attr.map { |_, attr| attr['level'] }
+    levels = ctgr_attr.keys
     probabilities = ctgr_attr.map { |_, attr| attr['probability'] }
 
     [ctgr_attr, levels, probabilities]

@@ -1,42 +1,52 @@
+onyomi:
+  question_sentence: 次の熟語の音読みを四択より選べ。
+  levels:
+    1:
+      probability: 0.4
+      end: 553
+    2:
+      probability: 0.2
+      end: 1588
+    3:
+      probability: 0.2
+      end: 3041
+    4:
+      probability: 0.1
+      end: 4036
+    5:
+      probability: 0.1
+      end: 4200
+
 jyuku_ate:
   question_sentence: 次の熟字群・当て字の読みを四択より選べ。
   levels:
     1:
-      level: 1
       probability: 0.4
       end: 459
     2:
-      level: 2
       probability: 0.2
       end: 1362
     3:
-      level: 3
       probability: 0.2
       end: 1755
     4:
-      level: 4
       probability: 0.1
       end: 2101
     5:
-      level: 5
       probability: 0.1
       end: 2184
 yoji-kaki:
   question_sentence: 次の四字熟語の下線部に当てはまるものを四択より選べ。
   levels:
     1:
-      level: 1
       probability: 0.4
       end: 466
     2:
-      level: 2
       probability: 0.3
       end: 1059
     3:
-      level: 3
       probability: 0.2
       end: 1513
     4:
-      level: 4
       probability: 0.1
       end: 1605
