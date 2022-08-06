@@ -16,7 +16,30 @@ onyomi:
     5:
       probability: 0.1
       end: 4200
-
+kunyomi:
+  question_sentence: 次の括弧内の訓読みを四択より選べ。
+  levels:
+    1:
+      probability: 0.4
+      end: 411
+    2:
+      probability: 0.2
+      end: 965
+    3:
+      probability: 0.2
+      end: 1094
+    4:
+      probability: 0.1
+      end: 1378
+    5:
+      probability: 0.1
+      end: 1399
+kokuji:
+  question_sentence: 次の括弧内の国字を四択より選べ。
+  levels:
+    1:
+      probability: 1.0
+      end: 125
 jyuku_ate:
   question_sentence: 次の熟字群・当て字の読みを四択より選べ。
   levels:
@@ -50,3 +73,21 @@ yoji-kaki:
     4:
       probability: 0.1
       end: 1605
+kojikoto:
+  question_sentence: 次の括弧内の漢字表記を四択より選べ。
+  levels:
+    1:
+      probability: 0.4
+      end: 141
+    2:
+      probability: 0.2
+      end: 846
+    3:
+      probability: 0.2
+      end: 1614
+    4:
+      probability: 0.1
+      end: 1880
+    5:
+      probability: 0.1
+      end: 2390

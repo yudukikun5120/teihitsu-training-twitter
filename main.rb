@@ -17,7 +17,7 @@ class Problem
     @category = category
     @id = id
     get_content(@category, @id).each_pair do |key, val|
-      instance_variable_set "@#{key}", val unless key.empty?
+      instance_variable_set "@#{key.tr("-", "_")}", val unless key.empty?
     end
   end
 
