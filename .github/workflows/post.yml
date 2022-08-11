@@ -10,35 +10,35 @@ name: Post
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 */5 * * *'
+    - cron: "0 */5 * * *"
 
 jobs:
   post:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['3.0']
+        ruby-version: ["2.7", "3.0"]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-    # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
-    # change this to (see https://github.com/ruby/setup-ruby#versioning):
-    # uses: ruby/setup-ruby@v1
-      uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Setup Python
-      uses: actions/setup-python@v3.1.2
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Run main.rb
-      run: ruby main.rb
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
-        CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
-        CONSUMER_KEY_SECRET: ${{ secrets.CONSUMER_KEY_SECRET }}
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
+        # change this to (see https://github.com/ruby/setup-ruby#versioning):
+        # uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Setup Python
+        uses: actions/setup-python@v3.1.2
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run main.rb
+        run: ruby main.rb
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+          CONSUMER_KEY_SECRET: ${{ secrets.CONSUMER_KEY_SECRET }}
