@@ -72,7 +72,7 @@ jobs:
         run: bundle install
 
       - name: Setup Python
-        uses: actions/setup-python@v3.1.2
+        uses: actions/setup-python@v4
 
       - name: Install dependencies
         run: |
