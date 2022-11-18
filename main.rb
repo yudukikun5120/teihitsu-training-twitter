@@ -11,7 +11,12 @@ require 'optparse'
 
 # define a problem
 class Problem
-  attr_reader :id, :problem, :level, :correct_answer, :alt_correct_answers, :note
+  attr_reader :id,
+  :problem,
+  :level,
+  :correct_answer,
+  :alt_correct_answers,
+  :note
 
   def initialize(category, id)
     @category = category
@@ -84,7 +89,8 @@ class Quiz
     until answer_options.count >= 4
       random_id = sample_problem_id level, @ctgr_attr
       random_problem = Problem.new @category, random_id
-      unless answer_options.include?(random_problem.correct_answer) || random_problem.correct_answer.nil?
+      unless answer_options.include?(random_problem.correct_answer) ||
+        random_problem.correct_answer.nil?
         answer_options << random_problem.correct_answer
       end
     end
@@ -145,7 +151,8 @@ end
 if __FILE__ == $PROGRAM_NAME
   quiz = Quiz.new
   res = quiz.post_tweets
-  tweet_url = "https://twitter.com/TeihitsuTRNG/status/#{res.response['data']['id']}"
+  tweet_url =
+  "https://twitter.com/TeihitsuTRNG/status/#{res.response['data']['id']}"
   puts "the tweet was posted at: #{tweet_url}"
   system "open #{tweet_url}"
 end
