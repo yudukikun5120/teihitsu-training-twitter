@@ -1,7 +1,10 @@
 # Teihitsu Training Automated Twitter Account
-[![Post](https://github.com/yudukikun5120/teihitsu-training-twitter/actions/workflows/post.yml/badge.svg)](https://github.com/yudukikun5120/teihitsu-training-twitter/actions/workflows/post.yml)
 
 An automated quiz-type account with a poll function. It is positioned as a Twitter client service for _Teihitsu Training_.
+
+![Twitter Follow](https://img.shields.io/twitter/follow/teihitsuTRNG?style=social)
+
+[![Post](https://github.com/yudukikun5120/teihitsu-training-twitter/actions/workflows/post.yml/badge.svg)](https://github.com/yudukikun5120/teihitsu-training-twitter/actions/workflows/post.yml)
 
 ### Features
 
