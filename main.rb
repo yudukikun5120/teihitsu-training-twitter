@@ -37,7 +37,7 @@ class Quiz
   def initialize
     @category = sample_category
     @ctgr_attr, @levels, @probabilities = categories_attr @category
-    @level = sample_level @levels, @probabilities
+    @level = (sample_level @levels, @probabilities).to_i
     @id = sample_problem_id @level, @ctgr_attr
     @problem = Problem.new @category, @id
     @client = set_client
