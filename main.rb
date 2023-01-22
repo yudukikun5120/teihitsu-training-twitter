@@ -67,12 +67,7 @@ class Quiz
   end
 
   def sample_problem_id(level, ctgr_attr)
-    start = case level
-            when 1
-              1
-            else
-              ctgr_attr[level - 1]['end'] + 1
-            end
+    start = level == 1 ? 1 : ctgr_attr[level - 1]['end'] + 1
     end_ = ctgr_attr[level]['end']
     (start..end_).to_a.sample
   end
